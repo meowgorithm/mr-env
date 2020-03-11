@@ -4,11 +4,11 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 41fbe910337e9c008863c8a3183d289c49208cc35069859b9b83aace504f5a8b
+-- hash: 75c9b595a361be691833e65acf017d11108cf944ee3a0c40262f767aab34cdea
 
 name:           mr-env
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/mr-env#readme>
+description:    Please see the README on GitHub at <https://github.com/meowgorithm/mr-env#readme>
 homepage:       https://github.com/meowgorithm/mr-env#readme
 bug-reports:    https://github.com/meowgorithm/mr-env/issues
 author:         Christian Rocha
