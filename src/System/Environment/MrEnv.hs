@@ -37,8 +37,11 @@ envAsInt name defaultValue =
 {-| Get an environment variable as an integer, with a default fallback value -}
 envAsInteger :: String -> Integer -> IO Integer
 envAsInteger name defaultValue =
-    envAsInt name (fromInteger defaultValue) >>= \val ->
-        return $ toInteger val
+    envAsString name "" >>= \val ->
+        if val == ""
+           then return defaultValue
+           else return $
+               (readMaybe val :: Maybe Integer) & fromMaybe defaultValue
 
 
 {-| Get an environment variable as a boolean, with a default fallback value -}
