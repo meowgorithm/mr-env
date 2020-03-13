@@ -16,7 +16,7 @@ module System.Environment.MrEnv (
 {-|
 How To Use This Module
 
-Read environment variables with "do" notation:
+Read environment variables with @do@ notation:
 
 @
 import System.Environment.MrEnv ( envAsBool, envAsInt, envAsInteger, envAsString )
