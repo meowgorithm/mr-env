@@ -47,12 +47,18 @@ envAsBool name defaultValue =
     envAsString name "" >>= \val ->
         if val == ""
            then return defaultValue
-           else return $
-               let s = capitalize val in
-               (readMaybe s :: Maybe Bool) & fromMaybe defaultValue
+            else return $
+                let
+                    -- Normalize the string so values like  TRUE, true, True,
+                    -- and truE all become "True," which can then be coerced to
+                    -- a boolean.
+                    s = capitalize val
+                in
+                (readMaybe s :: Maybe Bool) & fromMaybe defaultValue
 
 
-{-| Capitalize the first character in a string -}
+{-| Capitalize the first character in a string and make all other characters
+    lowercase. -}
 capitalize :: String -> String
 capitalize [] = []
 capitalize (head':tail') =
