@@ -55,5 +55,5 @@ envAsBool name defaultValue =
 {-| Capitalize the first character in a string -}
 capitalize :: String -> String
 capitalize [] = []
-capitalize (head:tail) =
-    Char.toUpper head : map Char.toLower tail
+capitalize (head':tail') =
+    Char.toUpper head' : map Char.toLower tail'
