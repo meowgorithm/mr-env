@@ -25,7 +25,7 @@ setEnvironment =
 
 main :: IO ()
 main =
-    hspec $ do
+    hspec $
         describe "Mr. Env's behavior" $ do
 
             it "uses default fallback variables" $ do
