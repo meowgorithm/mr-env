@@ -3,8 +3,8 @@ cabal-version: 2.2
 name: mr-env
 version: 0.1.0.0
 description:
-    A simple way to read environment variables in Haskell. For more info see
-    the README on GitHub at <https://github.com/meowgorithm/mr-env#readme>.
+  A simple way to read environment variables in Haskell. For more info see
+  the README on GitHub at <https://github.com/meowgorithm/mr-env#readme>.
 homepage: https://github.com/meowgorithm/mr-env#readme
 bug-reports: https://github.com/meowgorithm/mr-env/issues
 synopsis: A simple way to read environment variables in Haskell
@@ -12,7 +12,7 @@ license: MIT
 license-file: LICENSE
 author: Christian Rocha
 maintainer: christian@rocha.is
-copyright: (c) 2020 Christian Rocha
+copyright: 2020 Christian Rocha
 build-type: Simple
 extra-source-files: CHANGELOG.md, README.md
 
@@ -39,7 +39,7 @@ test-suite test-general
   hs-source-dirs: test
   main-is: Spec.hs
   build-depends:
-      base >=4 && <5
+      base >=4.7 && <5
     , hspec >= 2.7 && <2.8
     , mr-env
   ghc-options:
