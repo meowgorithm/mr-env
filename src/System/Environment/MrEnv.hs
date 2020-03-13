@@ -89,7 +89,12 @@ import qualified Data.Char as Char
 
 
 {-| Get an environment variable as a string, with a default fallback value -}
-envAsString :: String -> String -> IO String
+envAsString :: String
+            -- ^Name of environment varaiable
+            -> String
+            -- ^Fallback value
+            -> IO String
+            -- ^Result
 envAsString name defaultValue =
     (try $ getEnv name :: IO (Either IOError String)) >>= \case
         Left _ ->
@@ -99,7 +104,12 @@ envAsString name defaultValue =
 
 
 {-| Get an environment variable as an int, with a default fallback value -}
-envAsInt :: String -> Int -> IO Int
+envAsInt :: String
+         -- ^Name of environment variable
+         -> Int
+         -- ^Fallback value
+         -> IO Int
+         -- ^Result
 envAsInt name defaultValue =
     envAsString name "" >>= \val ->
         if val == ""
@@ -109,7 +119,12 @@ envAsInt name defaultValue =
 
 
 {-| Get an environment variable as an integer, with a default fallback value -}
-envAsInteger :: String -> Integer -> IO Integer
+envAsInteger :: String
+             -- ^Name of environment variable
+             -> Integer
+             -- ^Fallback value
+             -> IO Integer
+             -- ^Result
 envAsInteger name defaultValue =
     envAsString name "" >>= \val ->
         if val == ""
@@ -119,7 +134,12 @@ envAsInteger name defaultValue =
 
 
 {-| Get an environment variable as a boolean, with a default fallback value -}
-envAsBool :: String -> Bool -> IO Bool
+envAsBool :: String
+          -- ^Name of environment variable
+          -> Bool
+          -- ^Fallback value
+          -> IO Bool
+          -- ^Result
 envAsBool name defaultValue =
     envAsString name "" >>= \val ->
         if val == ""
