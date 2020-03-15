@@ -1,8 +1,16 @@
 # Mr. Env
 
-Read values from the environment with Haskell.
+A simple way to read environment variables in Haskell.
+
+```haskell
+-- Read environment variables, with defaults
+host <- envAsString "HOST" "localhost"
+port <- envAsInt "PORT" 8000
+```
 
 ## Simple Example
+
+Read environment variables with `do` notation:
 
 ```haskell
 import System.Environment.MrEnv ( envAsBool, envAsInt, envAsInteger, envAsString )
@@ -32,6 +40,8 @@ main = do
 
 ## Fancy Example
 
+Read environment variables into a record:
+
 ```haskell
 import System.Environment.MrEnv ( envAsBool, envAsInt, envAsInteger, envAsString )
 
@@ -59,6 +69,11 @@ main =
             ++ if debug c then "on" else "off"
             ++ "."
 ```
+
+We suggest pronouncing `<*>` _[brackey-splat][1]_ (as
+opposed to _ap_). In that vein, `<$>` is _brackey-cash._
+
+[1]: https://www.reddit.com/r/haskell/comments/241jcm/how_do_you_say/
 
 ## Author
 
