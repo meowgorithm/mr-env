@@ -1,6 +1,6 @@
 {-|
 Module      : System.Environment.MrEnv
-Description : Short description
+Description : Read environment variables, with default fallbacks
 Copyright   : (c) 2020 Christian Rocha
 License     : MIT
 Maintainer  : christian@rocha.is
