@@ -14,9 +14,9 @@ A simple way to read environment variables.
 
 module System.Environment.MrEnv (
 {-|
-How To Use This Module
+Read environment variables, with default fallback values.
 
-Read environment variables with @do@ notation:
+A simple example with @do@ notation:
 
 @
 import System.Environment.MrEnv ( envAsBool, envAsInt, envAsInteger, envAsString )
@@ -25,14 +25,14 @@ main :: IO ()
 main = do
 
     -- Get a string, with a fallback value if nothing is set.
-    host <- envAsString "HOST" "localhost"
+    host <- envAsString \"HOST\" "localhost"
 
     -- Get an int. If you need an integer instead you could also use envAsInteger.
-    port <- envAsInt "PORT" 8000
+    port <- envAsInt \"PORT\" 8000
 
     -- Get a boolean. Here we're expecting the environment variable to reading
-    -- something along the lines of "true", "TRUE", "True", "truE" and so on.
-    debug <- envAsBool "DEBUG" False
+    -- something along the lines of "true", \"TRUE\", \"True\", "truE" and so on.
+    debug <- envAsBool \"DEBUG\" False
 
     putStrLn $
         "Let's connect to "
@@ -58,8 +58,8 @@ data Config =
 getConfig :: IO Config
 getConfig = Config
     <$> envAsString \"HOST\" "localhost"
-    <*> envAsInt "PORT" 8000
-    <*> envAsBool "DEBUG" False
+    <*> envAsInt \"PORT\" 8000
+    <*> envAsBool \"DEBUG\" False
 
 main :: IO ()
 main =
