@@ -14,7 +14,7 @@ A simple way to read environment variables.
 
 module System.Environment.MrEnv (
 {-|
-Read environment variables, with default fallback values.
+Read environment variables with fallback values.
 
 A simple example with @do@ notation:
 
@@ -44,7 +44,7 @@ main = do
         ++ "."
 @
 
-Read environment variables into a record:
+You can also read into a record:
 
 @
 import System.Environment.MrEnv ( envAsBool, envAsInt, envAsInteger, envAsString )
