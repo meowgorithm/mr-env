@@ -10,8 +10,6 @@ Portability : POSIX
 A simple way to read environment variables.
 -}
 
-{-# LANGUAGE LambdaCase #-}
-
 module System.Environment.MrEnv (
 {-|
 Read environment variables with fallback values.
@@ -96,11 +94,10 @@ envAsString :: String
             -> IO String
             -- ^Result
 envAsString name defaultValue =
-    (try $ getEnv name :: IO (Either IOError String)) >>= \case
-        Left _ ->
-            return defaultValue
-        Right val ->
-            return val
+    (try $ getEnv name :: IO (Either IOError String)) >>= choice
+    where
+        choice (Left _)    = return defaultValue
+        choice (Right val) = return val
 
 
 {-| Get an environment variable as an int, with a default fallback value -}
@@ -111,11 +108,11 @@ envAsInt :: String
          -> IO Int
          -- ^Result
 envAsInt name defaultValue =
-    envAsString name "" >>= \val ->
-        if val == ""
-            then return defaultValue
-            else return $
-                (readMaybe val :: Maybe Int) & fromMaybe defaultValue
+    envAsString name "" >>= choice
+    where
+        choice v
+          | v == ""   = return defaultValue
+          | otherwise = (readMaybe v :: Maybe Int) & fromMaybe defaultValue & return
 
 
 {-| Get an environment variable as an integer, with a default fallback value -}
@@ -126,11 +123,10 @@ envAsInteger :: String
              -> IO Integer
              -- ^Result
 envAsInteger name defaultValue =
-    envAsString name "" >>= \val ->
-        if val == ""
-           then return defaultValue
-           else return $
-               (readMaybe val :: Maybe Integer) & fromMaybe defaultValue
+    envAsString name "" >>= choice
+    where
+        choice v | v == ""   = return defaultValue
+                 | otherwise = (readMaybe v :: Maybe Integer) & fromMaybe defaultValue & return
 
 
 {-| Get an environment variable as a boolean, with a default fallback value -}
@@ -144,18 +140,14 @@ envAsBool name defaultValue =
     envAsString name "" >>= \val ->
         if val == ""
            then return defaultValue
-            else return $
-                let
-                    -- Normalize the string so values like  TRUE, true, True,
-                    -- and truE all become "True," which can then be coerced to
-                    -- a boolean.
-                    s = capitalize val
-                in
-                (readMaybe s :: Maybe Bool) & fromMaybe defaultValue
+           else (readMaybe $ capitalize val :: Maybe Bool)
+                & fromMaybe defaultValue
+                & return
 
 
 {-| Capitalize the first character in a string and make all other characters
-    lowercase. -}
+    lowercase. In our case we're doing this so values like like  TRUE, true,
+    True, and truE all become "True," which can then be coerced to a boolean. -}
 capitalize :: String -> String
 capitalize [] = []
 capitalize (head':tail') =
