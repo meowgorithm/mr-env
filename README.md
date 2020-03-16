@@ -1,5 +1,7 @@
 # Mr. Env
 
+![build](https://github.com/meowgorithm/mr-env/workflows/build/badge.svg)
+
 A simple way to read environment variables in Haskell.
 
 ```haskell
