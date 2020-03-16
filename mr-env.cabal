@@ -39,7 +39,7 @@ test-suite test-general
   hs-source-dirs: test
   main-is: Spec.hs
   build-depends:
-      base >=4.7 && <5
+      base >=4 && <5
     , hspec >= 2.7 && <2.8
     , mr-env
   ghc-options:
