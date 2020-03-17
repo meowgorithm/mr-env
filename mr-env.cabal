@@ -12,7 +12,7 @@ license: MIT
 license-file: LICENSE
 author: Christian Rocha
 maintainer: christian@rocha.is
-copyright: (c) 2020 Christian Rocha
+copyright: 2020 Christian Rocha
 category: System
 build-type: Simple
 extra-source-files: CHANGELOG.md, README.md
