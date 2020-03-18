@@ -1,6 +1,10 @@
 # Mr. Env
 
-![build](https://github.com/meowgorithm/mr-env/workflows/build/badge.svg)
+![build][action-badge] [![Hackage][hackage-shield]][hackage]
+
+[action-badge]: https://github.com/meowgorithm/mr-env/workflows/build/badge.svg
+[hackage]: http://hackage.haskell.org/package/mr-env
+[hackage-shield]: https://img.shields.io/hackage/v/mr-env.svg?style=flat&color=blueviolet
 
 A simple way to read environment variables in Haskell.
 
