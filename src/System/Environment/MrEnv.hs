@@ -55,9 +55,9 @@ data Config =
 
 getConfig :: IO Config
 getConfig = Config
-    <$> envAsString \"HOST\" "localhost"
-    <*> envAsInt \"PORT\" 8000
-    <*> envAsBool \"DEBUG\" False
+    \<$\> envAsString \"HOST\" "localhost"
+    \<*\> envAsInt \"PORT\" 8000
+    \<*\> envAsBool \"DEBUG\" False
 
 main :: IO ()
 main =
