@@ -76,8 +76,8 @@ main =
             ++ "."
 ```
 
-We suggest pronouncing `<*>` _[brackey-splat][1]_ (as
-opposed to _ap_). In that vein, `<$>` is _brackey-cash._
+We suggest pronouncing `<*>` _[brackety-splat][1]_ (as
+opposed to _ap_). In that vein, `<$>` is _brackety-cash._
 
 [1]: https://www.reddit.com/r/haskell/comments/241jcm/how_do_you_say/
 
