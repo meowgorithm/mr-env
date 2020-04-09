@@ -68,11 +68,11 @@ main =
     getConfig >>= \conf ->
         putStrLn $
             "Let's connect to "
-            ++ host c
+            ++ host conf
             ++ " on port "
-            ++ show $ port c
+            ++ show $ port conf
             ++ ". Debug mode is "
-            ++ if debug c then "on" else "off"
+            ++ if debug conf then "on" else "off"
             ++ "."
 ```
 
