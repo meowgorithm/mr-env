@@ -1,3 +1,4 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 {-|
 Module      : System.Environment.MrEnv
 Description : Read environment variables, with default fallbacks
@@ -73,82 +74,83 @@ main =
 @
 -}
 
-        envAsBool
+        envAs',
+        envAs
+      , envAsBool
       , envAsInt
       , envAsInteger
       , envAsString ) where
 
-import Control.Exception ( try )
+import Control.Exception ( catch )
 import System.Environment ( getEnv )
 import Text.Read ( readMaybe )
 import Data.Maybe ( fromMaybe )
-import Data.Function ( (&) )
-import qualified Data.Char as Char
+import Data.Char (toLower, toUpper)
 
+{-| Get an environment variable, with a fallback value and the ability to preprocess the raw string before
+    @read@ing it.
+-}
+envAs' :: forall a. Read a => String
+                    -- ^Name of environment variable
+                    -> (String -> Maybe a)
+                    -- ^Preprocessing function
+                     -> a
+                    -- ^Fallback value
+                    -> IO a
+                    -- ^Result
+envAs' name prep defaultValue = catch
+                               ((fromMaybe defaultValue . prep) <$> getEnv name)
+                               ((const $ pure defaultValue) :: IOError -> IO a)
 
-{-| Get an environment variable as a string, with a default fallback value -}
+{-| Get an environment variable, with a fallback value -}
+envAs :: forall a. Read a => String
+                     -- ^Name of environment variable
+                     -> a
+                     -- ^Fallback value
+                     -> IO a
+                     -- ^Result
+envAs name defaultValue = envAs' name readMaybe defaultValue
+
+{-| Get an environment variable as a @'String'@, with a fallback value -}
 envAsString :: String
-            -- ^Name of environment varaiable
+            -- ^Name of environment variable
             -> String
             -- ^Fallback value
             -> IO String
             -- ^Result
-envAsString name defaultValue =
-    (try $ getEnv name :: IO (Either IOError String)) >>= choice
-    where
-        choice (Left _)    = return defaultValue
-        choice (Right val) = return val
+envAsString = envAs
 
-
-{-| Get an environment variable as an int, with a default fallback value -}
+{-| Get an environment variable as an @'Int'@, with a fallback value -}
 envAsInt :: String
          -- ^Name of environment variable
          -> Int
          -- ^Fallback value
          -> IO Int
          -- ^Result
-envAsInt name defaultValue =
-    envAsString name "" >>= choice
-    where
-        choice v
-          | v == ""   = return defaultValue
-          | otherwise = (readMaybe v :: Maybe Int) & fromMaybe defaultValue & return
+envAsInt = envAs
 
 
-{-| Get an environment variable as an integer, with a default fallback value -}
+{-| Get an environment variable as an @'Integer'@, with a fallback value -}
 envAsInteger :: String
              -- ^Name of environment variable
              -> Integer
              -- ^Fallback value
              -> IO Integer
              -- ^Result
-envAsInteger name defaultValue =
-    envAsString name "" >>= choice
-    where
-        choice v | v == ""   = return defaultValue
-                 | otherwise = (readMaybe v :: Maybe Integer) & fromMaybe defaultValue & return
+envAsInteger = envAs
 
-
-{-| Get an environment variable as a boolean, with a default fallback value -}
+{-| Get an environment variable as a boolean, with a fallback value. This function is recommended over @'envAs' \@Bool@, as it handles nonstandard capitalization. -}
 envAsBool :: String
-          -- ^Name of environment variable
-          -> Bool
-          -- ^Fallback value
-          -> IO Bool
-          -- ^Result
-envAsBool name defaultValue =
-    envAsString name "" >>= \val ->
-        if val == ""
-           then return defaultValue
-           else (readMaybe $ capitalize val :: Maybe Bool)
-                & fromMaybe defaultValue
-                & return
-
+            -- ^Name of environment variable
+            -> Bool
+            -- ^Fallback value
+            -> IO Bool
+            -- ^Result
+envAsBool name = envAs' name (readMaybe . capitalize)
 
 {-| Capitalize the first character in a string and make all other characters
     lowercase. In our case we're doing this so values like like  TRUE, true,
     True, and truE all become "True," which can then be coerced to a boolean. -}
 capitalize :: String -> String
 capitalize [] = []
-capitalize (head':tail') =
-    Char.toUpper head' : map Char.toLower tail'
+capitalize (head':tail') = toUpper head' : map toLower tail'
