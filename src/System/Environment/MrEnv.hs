@@ -111,14 +111,14 @@ envAs :: forall a. Read a => String
                      -- ^Result
 envAs name defaultValue = envAs' name readMaybe defaultValue
 
-{-| Get an environment variable as a @'String'@, with a fallback value -}
+{-| Get an environment variable as a @'String'@, with a fallback value. Use this instead of @'envAs' \@String@, because 'readMaybe' fails unless your 'String's are doubly-quoted (i.e. '"\"value\""' -}
 envAsString :: String
             -- ^Name of environment variable
             -> String
             -- ^Fallback value
             -> IO String
             -- ^Result
-envAsString = envAs
+envAsString name = envAs' name (readMaybe . (\v -> "\"" ++ v ++ "\""))
 
 {-| Get an environment variable as an @'Int'@, with a fallback value -}
 envAsInt :: String
