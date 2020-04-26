@@ -99,7 +99,7 @@ envAs' :: forall a. Read a => String
                     -> IO a
                     -- ^Result
 envAs' name prep defaultValue = catch
-                               ((fromMaybe defaultValue . prep) <$> getEnv name)
+                               (fromMaybe defaultValue . prep <$> getEnv name)
                                ((const $ pure defaultValue) :: IOError -> IO a)
 
 {-| Get an environment variable, with a fallback value -}
