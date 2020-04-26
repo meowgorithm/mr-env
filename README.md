@@ -81,9 +81,10 @@ opposed to _ap_). In that vein, `<$>` is _brackety-cash._
 
 [1]: https://www.reddit.com/r/haskell/comments/241jcm/how_do_you_say/
 
-## Author
+## Authors
 
-[Christian Rocha](https://github.com/meowgorithm)
+* [Christian Rocha](https://github.com/meowgorithm)
+* [Sam Raker](https://github.com/swizzard)
 
 ## License
 
