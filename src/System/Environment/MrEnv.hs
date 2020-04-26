@@ -82,71 +82,68 @@ main =
       , envAsString ) where
 
 import Control.Exception ( catch )
+import Data.Char ( toLower, toUpper )
+import Data.Maybe ( fromMaybe )
 import System.Environment ( getEnv )
 import Text.Read ( readMaybe )
-import Data.Maybe ( fromMaybe )
-import Data.Char (toLower, toUpper)
 
-{-| Get an environment variable, with a fallback value and the ability to preprocess the raw string before
-    @read@ing it.
--}
-envAs' :: forall a. Read a => String
-                    -- ^Name of environment variable
-                    -> (String -> Maybe a)
-                    -- ^Preprocessing function
-                     -> a
-                    -- ^Fallback value
-                    -> IO a
-                    -- ^Result
-envAs' name prep defaultValue = catch
-                               (fromMaybe defaultValue . prep <$> getEnv name)
-                               ((const $ pure defaultValue) :: IOError -> IO a)
+
+{-| Get an environment variable, with a fallback value and the ability to
+   preprocess the raw string before @read@ing it. -}
+envAs' :: forall a. Read a
+       => String              -- ^Name of environment variable
+       -> (String -> Maybe a) -- ^Preprocessing function
+       -> a                   -- ^Fallback value
+       -> IO a                -- ^Result
+envAs' name prep defaultValue =
+    catch
+    (fromMaybe defaultValue . prep <$> getEnv name)
+    ((const $ pure defaultValue) :: IOError -> IO a)
+
 
 {-| Get an environment variable, with a fallback value -}
-envAs :: forall a. Read a => String
-                     -- ^Name of environment variable
-                     -> a
-                     -- ^Fallback value
-                     -> IO a
-                     -- ^Result
-envAs name defaultValue = envAs' name readMaybe defaultValue
+envAs :: forall a. Read a
+      => String -- ^Name of environment variable
+      -> a      -- ^Fallback value
+      -> IO a   -- ^Result
+envAs name defaultValue =
+    envAs' name readMaybe defaultValue
 
-{-| Get an environment variable as a @'String'@, with a fallback value. Use this instead of @'envAs' \@String@, because 'readMaybe' fails unless your 'String's are doubly-quoted (i.e. '"\"value\""' -}
-envAsString :: String
-            -- ^Name of environment variable
-            -> String
-            -- ^Fallback value
-            -> IO String
-            -- ^Result
-envAsString name = envAs' name (readMaybe . (\v -> "\"" ++ v ++ "\""))
+{-| Get an environment variable as a @'String'@, with a fallback value. Use
+   this instead of @'envAs' \@String@, because 'readMaybe' fails unless your
+   'String's are doubly-quoted (i.e. '"\"value\""' -}
+envAsString :: String    -- ^Name of environment variable
+            -> String    -- ^Fallback value
+            -> IO String -- ^Result
+envAsString name =
+    envAs' name (readMaybe . (\v -> "\"" ++ v ++ "\""))
+
 
 {-| Get an environment variable as an @'Int'@, with a fallback value -}
-envAsInt :: String
-         -- ^Name of environment variable
-         -> Int
-         -- ^Fallback value
-         -> IO Int
-         -- ^Result
-envAsInt = envAs
+envAsInt :: String -- ^Name of environment variable
+         -> Int    -- ^Fallback value
+         -> IO Int -- ^Result
+envAsInt =
+    envAs
 
 
 {-| Get an environment variable as an @'Integer'@, with a fallback value -}
-envAsInteger :: String
-             -- ^Name of environment variable
-             -> Integer
-             -- ^Fallback value
-             -> IO Integer
-             -- ^Result
-envAsInteger = envAs
+envAsInteger :: String     -- ^Name of environment variable
+             -> Integer    -- ^Fallback value
+             -> IO Integer -- ^Result
+envAsInteger =
+    envAs
 
-{-| Get an environment variable as a boolean, with a fallback value. This function is recommended over @'envAs' \@Bool@, as it handles nonstandard capitalization. -}
-envAsBool :: String
-            -- ^Name of environment variable
-            -> Bool
-            -- ^Fallback value
-            -> IO Bool
-            -- ^Result
-envAsBool name = envAs' name (readMaybe . capitalize)
+
+{-| Get an environment variable as a boolean, with a fallback value. This
+   function is recommended over @'envAs' \@Bool@, as it handles nonstandard
+   capitalization. -}
+envAsBool :: String    -- ^Name of environment variable
+            -> Bool    -- ^Fallback value
+            -> IO Bool -- ^Result
+envAsBool name =
+    envAs' name (readMaybe . capitalize)
+
 
 {-| Capitalize the first character in a string and make all other characters
     lowercase. In our case we're doing this so values like like  TRUE, true,
