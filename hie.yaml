@@ -1,0 +1,6 @@
+cradle:
+  cabal:
+    - path: ./src
+      component: "mr-env"
+    - path: ./test
+      component: "test"
