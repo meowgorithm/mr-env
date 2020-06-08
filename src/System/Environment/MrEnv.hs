@@ -86,6 +86,7 @@ import System.Environment ( getEnv )
 import Text.Read ( readMaybe )
 
 
+
 {-| Get an environment variable, with a fallback value and the ability to
    preprocess the raw string before @read@ing it. -}
 envAs' :: forall a. Read a
@@ -104,8 +105,8 @@ envAs :: forall a. Read a
       => String -- ^Name of environment variable
       -> a      -- ^Fallback value
       -> IO a   -- ^Result
-envAs name defaultValue =
-    envAs' name readMaybe defaultValue
+envAs name =
+    envAs' name readMaybe
 
 {-| Get an environment variable as a @'String'@, with a fallback value. Use
    this instead of @'envAs' \@String@, because 'readMaybe' fails unless your
