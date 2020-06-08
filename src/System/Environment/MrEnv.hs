@@ -74,9 +74,7 @@ main =
 @
 -}
 
-        envAs',
-        envAs
-      , envAsBool
+        envAsBool
       , envAsInt
       , envAsInteger
       , envAsString ) where
