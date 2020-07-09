@@ -29,7 +29,7 @@ main = do
     -- Get an int. If you need an integer instead you could also use envAsInteger.
     port <- envAsInt \"PORT\" 8000
 
-    -- Get a boolean. Here we're expecting the environment variable to reading
+    -- Get a boolean. Here we're expecting the environment variable to read
     -- something along the lines of "true", \"TRUE\", \"True\", "truE" and so on.
     debug <- envAsBool \"DEBUG\" False
 
@@ -99,7 +99,7 @@ envAs' name prep defaultValue =
           ((const $ pure defaultValue) :: IOError -> IO a)
 
 
-{-| Get an environment variable, with a fallback value -}
+{-| Get an environment variable, with a fallback value. -}
 envAs :: forall a. Read a
       => String -- ^Name of environment variable
       -> a      -- ^Fallback value
@@ -107,9 +107,10 @@ envAs :: forall a. Read a
 envAs name =
     envAs' name readMaybe
 
-{-| Get an environment variable as a @'String'@, with a fallback value. Use
-   this instead of @'envAs' \@String@, because 'readMaybe' fails unless your
-   'String's are doubly-quoted (i.e. '"\"value\""' -}
+{-| Get an environment variable as a @'String'@, with a fallback value.
+
+    Internally we use this instead of @'envAs' \@String@, because 'readMaybe'
+    fails unless 'String's are doubly-quoted (i.e. '"\"value\""'. -}
 envAsString :: String    -- ^Name of environment variable
             -> String    -- ^Fallback value
             -> IO String -- ^Result
@@ -117,7 +118,7 @@ envAsString name =
     envAs' name (readMaybe . (\v -> "\"" ++ v ++ "\""))
 
 
-{-| Get an environment variable as an @'Int'@, with a fallback value -}
+{-| Get an environment variable as an @'Int'@, with a fallback value. -}
 envAsInt :: String -- ^Name of environment variable
          -> Int    -- ^Fallback value
          -> IO Int -- ^Result
@@ -125,7 +126,7 @@ envAsInt =
     envAs
 
 
-{-| Get an environment variable as an @'Integer'@, with a fallback value -}
+{-| Get an environment variable as an @'Integer'@, with a fallback value. -}
 envAsInteger :: String     -- ^Name of environment variable
              -> Integer    -- ^Fallback value
              -> IO Integer -- ^Result
@@ -133,9 +134,10 @@ envAsInteger =
     envAs
 
 
-{-| Get an environment variable as a boolean, with a fallback value. This
-   function is recommended over @'envAs' \@Bool@, as it handles nonstandard
-   capitalization. -}
+{-| Get an environment variable as a boolean, with a fallback value.
+
+    Internally we use this instead of @'envAs' \@Bool@, as it handles
+    nonstandard capitalization. -}
 envAsBool :: String    -- ^Name of environment variable
           -> Bool    -- ^Fallback value
           -> IO Bool -- ^Result
@@ -144,7 +146,7 @@ envAsBool name =
 
 
 {-| Capitalize the first character in a string and make all other characters
-    lowercase. In our case we're doing this so values like like  TRUE, true,
+    lowercase. In our case we're doing this so values like like TRUE, true,
     True, and truE all become "True," which can then be coerced to a boolean. -}
 capitalize :: String -> String
 capitalize [] = []

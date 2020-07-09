@@ -30,7 +30,7 @@ main = do
     -- Get an int. If you need an integer instead you could also use envAsInteger.
     port <- envAsInt "PORT" 8000
 
-    -- Get a boolean. Here we're expecting the environment variable to reading
+    -- Get a boolean. Here we're expecting the environment variable to read
     -- something along the lines of "true", "TRUE", "True", "truE" and so on.
     debug <- envAsBool "DEBUG" False
 
