@@ -95,9 +95,8 @@ envAs' :: forall a. Read a
        -> a                   -- ^Fallback value
        -> IO a                -- ^Result
 envAs' name prep defaultValue =
-    catch
-    (fromMaybe defaultValue . prep <$> getEnv name)
-    ((const $ pure defaultValue) :: IOError -> IO a)
+    catch (fromMaybe defaultValue . prep <$> getEnv name)
+          ((const $ pure defaultValue) :: IOError -> IO a)
 
 
 {-| Get an environment variable, with a fallback value -}
@@ -138,8 +137,8 @@ envAsInteger =
    function is recommended over @'envAs' \@Bool@, as it handles nonstandard
    capitalization. -}
 envAsBool :: String    -- ^Name of environment variable
-            -> Bool    -- ^Fallback value
-            -> IO Bool -- ^Result
+          -> Bool    -- ^Fallback value
+          -> IO Bool -- ^Result
 envAsBool name =
     envAs' name (readMaybe . capitalize)
 
