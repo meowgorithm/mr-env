@@ -109,7 +109,7 @@ envAs name =
 
 {-| Get an environment variable as a @'String'@, with a fallback value.
 
-    Internally we use this instead of @'envAs' \@String@, because 'readMaybe'
+    Internally we use this instead of @'envAs\' String@, because 'readMaybe'
     fails unless 'String's are doubly-quoted (i.e. '"\"value\""'. -}
 envAsString :: String    -- ^Name of environment variable
             -> String    -- ^Fallback value
@@ -136,7 +136,7 @@ envAsInteger =
 
 {-| Get an environment variable as a boolean, with a fallback value.
 
-    Internally we use this instead of @'envAs' \@Bool@, as it handles
+    Internally we use this instead of @'envAs\' Bool@, as it handles
     nonstandard capitalization. -}
 envAsBool :: String    -- ^Name of environment variable
           -> Bool    -- ^Fallback value
